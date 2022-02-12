@@ -21,6 +21,5 @@ def dom_color(img_path: str) -> np.array:
     return dominant
 
 if __name__ == "__main__":
-    print(dom_color("doge.jpg"))
-    print(dom_color("red.png"))
+    print(dom_color("../images/source/mike.jpg"))
     

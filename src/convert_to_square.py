@@ -36,5 +36,5 @@ if __name__ == "__main__":
     dest = '../images/squared/mike.jpg'
 
     image = io.read_image(path)
-    image = io.make_square(image, 64)
-    io.save_image(image, dest)
+    image = make_square(image, 64)
+    io.write_image(image, dest)

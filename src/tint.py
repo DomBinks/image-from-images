@@ -1,9 +1,9 @@
 import cv2
-import convert_to_square as cts
+import imageio as io
 
 def tint(path, red, green, blue):
     """Returns the provided image array tinted using the value provided"""
-    image = cts.read_image(path)
+    image = io.read_image(path)
     for row in image:
         for col in row:
             col[0] *= blue/255
@@ -20,4 +20,4 @@ if __name__ == "__main__":
     #dest = '../images/tinted/giraffe.jpeg'
             
     image = tint(path, 230, 0, 255)
-    cts.save_image(image, dest)
+    io.save_image(image, dest)

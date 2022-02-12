@@ -24,12 +24,15 @@ colors = [
     [0,0,0]
     ]
 
-def rgb_to_nearest_16(pixel):
-    nearest_color = []
+def rgb_to_nearest_16(pixel, df_colors):
+    nearest_color_index = 100
     lowest_sum = 765
 
-    for color in colors:
-        color_rgb = sRGBColor(color[0], color[1], color[2])
+    colors_r = df_colors['r'].to_list()
+    colors_g = df_colors['g'].to_list()
+    colors_b = df_colors['b'].to_list()
+    for i in range(len(colors_b)):
+        color_rgb = sRGBColor(colors_r[i], colors_g[i], colors_b[i])
         pixel_rgb = sRGBColor(pixel[0], pixel[1], pixel[2])
         color_lab = convert_color(color_rgb, LabColor)
         pixel_lab = convert_color(pixel_rgb, LabColor)
@@ -38,9 +41,11 @@ def rgb_to_nearest_16(pixel):
 
         if sum <= lowest_sum:
             lowest_sum = sum
-            nearest_color = color
+            nearest_color_index = i
 
-    return nearest_color
+    nearest_color_row = df_colors.iloc[nearest_color_index]
+    
+    return nearest_color_row
 
 
 def make_16(image):
@@ -51,8 +56,9 @@ def make_16(image):
 
     for row_index in range(height):
         for col_index in range(width):
-            nearest_color = rgb_to_nearest_16(image[row_index][col_index])
-
+            nearest_color_row = rgb_to_nearest_16(image[row_index][col_index])
+            nearest_color = [nearest_color_row['r'], nearest_color_row['g'], nearest_color_row['b']]
+            
             image[row_index][col_index] = np.array(nearest_color)
 
     return image

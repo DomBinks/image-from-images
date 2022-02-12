@@ -1,17 +1,17 @@
-color,r,g,b
-white,255,255,255
-yellow,252,244,4
-orange,255,100,4
-red,220,8,8
-magenta,240,8,132
-purple,72,0,184
-blue,0,0,212
-cyan,0,172,232
-green,32,184,20
-dark green,0,100,16
-brown,88,44,4
-tan,144,112,56
-light grey,192,192,192
-medium grey,128,128,128
-dark grey,64,64,64
-black,0,0,0
+color,key,r,g,b
+white,wh,255,255,255
+yellow,ye,252,244,4
+orange,or,255,100,4
+red,re,220,8,8
+magenta,ma,240,8,132
+purple,pu,72,0,184
+blue,bl,0,0,212
+cyan,cy,0,172,232
+green,gr,32,184,20
+dark green,da,0,100,16
+brown,br,88,44,4
+tan,ta,144,112,56
+light grey,lg,192,192,192
+medium grey,mg,128,128,128
+dark grey,dg,64,64,64
+black,ba,0,0,0

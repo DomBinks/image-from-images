@@ -4,6 +4,7 @@ from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_conversions import convert_color
 from colormath.color_diff import delta_e_cie2000
 import imageio as io
+import pandas as pd
 
 colors = [
     [255,255,255],
@@ -48,7 +49,7 @@ def rgb_to_nearest_16(pixel, df_colors):
     return nearest_color_row
 
 
-def make_16(image):
+def make_16(image, df_colors):
     """Returns the provided image array with the pixels changed to fit
         the 16 color palette"""
 
@@ -56,9 +57,9 @@ def make_16(image):
 
     for row_index in range(height):
         for col_index in range(width):
-            nearest_color_row = rgb_to_nearest_16(image[row_index][col_index])
+            nearest_color_row = rgb_to_nearest_16(image[row_index][col_index], df_colors)
             nearest_color = [nearest_color_row['r'], nearest_color_row['g'], nearest_color_row['b']]
-            
+
             image[row_index][col_index] = np.array(nearest_color)
 
     return image
@@ -66,5 +67,6 @@ def make_16(image):
     
 if __name__ == "__main__":
     image = io.read_image("../images/squared/mike.jpg")
-    image = make_16(image)
+    df_colors = pd.read_csv("../colors.csv")
+    image = make_16(image, df_colors)
     io.write_image(image, "../images/final/mike.jpg")

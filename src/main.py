@@ -11,7 +11,6 @@ def pipeline():
     os.makedirs("../images/squared", exist_ok=True)
     os.makedirs("../images/final", exist_ok=True)
     colors = pd.read_csv("../colors.csv")
-
     color_keys = colors['key'].to_list()
     
     for color in color_keys:

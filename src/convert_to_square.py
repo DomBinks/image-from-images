@@ -1,11 +1,5 @@
 import cv2
-
-def read_image(path):
-    """Returns an image array corresponding to the file provided"""
-
-    image = cv2.imread(path, 1)
-    
-    return image
+import imageio as io
 
 def make_square(image, side_length):
     """Returns a cropped version of the provided image array as a square with sides of the length specified"""
@@ -36,25 +30,11 @@ def make_square(image, side_length):
     image = cv2.resize(image, (side_length, side_length))
 
     return image
-    
-def save_image(image, path):
-    """Saves the image array provided at the path provided"""
-
-    cv2.imwrite(path, image)
-    
-    return
 
 if __name__ == "__main__":
-    #path = '../images/source/mike.jpg'
-    path = '../images/source/giraffe.jpeg'
+    path = '../images/source/mike.jpg'
+    dest = '../images/squared/mike.jpg'
 
-    #dest = '../images/squared/mike.jpg'
-    dest = '../images/squared/giraffe.jpeg'
-
-    image = read_image(path)
-    image = make_square(image, 16)
-    save_image(image, dest)
-
-    cv2.imshow('Image',image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    image = io.read_image(path)
+    image = io.make_square(image, 64)
+    io.save_image(image, dest)

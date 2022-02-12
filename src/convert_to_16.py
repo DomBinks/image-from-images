@@ -25,20 +25,21 @@ def make_16(image):
     """Returns the provided image array with the pixels changed to fit
         the 16 color palette"""
 
-    for row in image:
-        for col in row:
+    height, width = image.shape[:2]
+
+    for row_index in range(height):
+        for col_index in range(width):
             nearest_color = []
             lowest_sum = 765
             
             for color in colors:
-                sum = abs(col[0] - color[0]) + abs(col[1] - color[1]) + abs(col[2] - color[2])
+                sum = abs(image[row_index][col_index][0] - color[0]) + abs(image[row_index][col_index][1] - color[1]) + abs(image[row_index][col_index][2] - color[2])
                 
-                if sum < lowest_sum:
+                if sum <= lowest_sum:
                     lowest_sum = sum
                     nearest_color = color
 
-            col = np.array(nearest_color)
-            print(col)
+            image[row_index][col_index] = np.array(nearest_color)
 
     return image
 

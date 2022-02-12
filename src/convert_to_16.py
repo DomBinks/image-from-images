@@ -24,6 +24,25 @@ colors = [
     [0,0,0]
     ]
 
+def rgb_to_nearest_16(pixel):
+    nearest_color = []
+    lowest_sum = 765
+
+    for color in colors:
+        color_rgb = sRGBColor(color[0], color[1], color[2])
+        pixel_rgb = sRGBColor(pixel[0], pixel[1], pixel[2])
+        color_lab = convert_color(color_rgb, LabColor)
+        pixel_lab = convert_color(pixel_rgb, LabColor)
+
+        sum = delta_e_cie2000(color_lab, pixel_lab)
+
+        if sum <= lowest_sum:
+            lowest_sum = sum
+            nearest_color = color
+
+    return nearest_color
+
+
 def make_16(image):
     """Returns the provided image array with the pixels changed to fit
         the 16 color palette"""
@@ -32,25 +51,13 @@ def make_16(image):
 
     for row_index in range(height):
         for col_index in range(width):
-            nearest_color = []
-            lowest_sum = 765
-
-            for color in colors:
-                color_rgb = sRGBColor(color[0], color[1], color[2])
-                pixel_rgb = sRGBColor(image[row_index][col_index][0], image[row_index][col_index][1], image[row_index][col_index][2])
-                color_lab = convert_color(color_rgb, LabColor)
-                pixel_lab = convert_color(pixel_rgb, LabColor)
-
-                sum = delta_e_cie2000(color_lab, pixel_lab)
-
-                if sum <= lowest_sum:
-                    lowest_sum = sum
-                    nearest_color = color
+            nearest_color = rgb_to_nearest_16(image[row_index][col_index])
 
             image[row_index][col_index] = np.array(nearest_color)
 
     return image
 
+    
 if __name__ == "__main__":
     image = io.read_image("../images/squared/mike.jpg")
     image = make_16(image)

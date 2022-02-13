@@ -5,5 +5,5 @@
 
 | Contributors: |
 |----------------|
-| Dom Binks |
-| Alice Gowler |
+| [Dom Binks](https://github.com/DomBinks) |
+| [Alice Gowler](https://github.com/A1ic3-g) |

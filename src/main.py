@@ -23,6 +23,8 @@ def pipeline(colors):
     os.makedirs("../images/squared", exist_ok=True)
     os.makedirs("../images/final", exist_ok=True)
     os.makedirs("../images/reduced", exist_ok=True)
+    os.makedirs("../images/input", exist_ok=True)
+    os.makedirs("../images/output", exist_ok=True)
 
     color_keys = colors['key'].to_list()
     

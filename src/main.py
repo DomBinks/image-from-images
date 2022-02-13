@@ -3,7 +3,8 @@ import imageio
 import convert_to_square as cts
 import pandas as pd
 import tint
-
+import get_dominant_color as gdc
+import convert_to_16 as ct16
 
 # data preprocessing
 def pipeline():
@@ -48,12 +49,14 @@ def pipeline():
                 ext = "png"
             else:
                 raise ValueError
+            path =f"../images/squared/{file}"
             
-            img = imageio.read_image(f"../images/source/{file}")
-            img = tint.tint(img, 64)
+            dom_color = gdc.dom_color(path)
+            tint_color = ct16.rgb_to_nearest_16(dom_color, colors)
+            img = imageio.read_image(path)
+            img = tint.tint(img, tint_color['r'], tint_color['g'], tint_color['b'])
 
-            imageio.write_image(img, f"../images/squared/{file}")
-            i+=1
+            imageio.write_image(img, f"../images/tinted/{tint_color['key']}/{file}")
         except FileNotFoundError:
             pass
         except ValueError:

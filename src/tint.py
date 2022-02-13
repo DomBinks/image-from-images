@@ -1,5 +1,7 @@
 import cv2
 import imageio as io
+import pandas
+
 
 def tint(image, red, green, blue):
     """Returns the provided image array tinted using the value provided"""

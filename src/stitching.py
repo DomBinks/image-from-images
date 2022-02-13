@@ -19,20 +19,25 @@ def get_color_key(df_colors, pixel):
         if colors_r[i] == pixel[0] and colors_g[i] == pixel[1] and colors_b[i] == pixel[2]:
             color_row = df_colors.iloc[i]
             key = color_row['key']
-            if key == "bl":
+            
+            if key == "ma":
+                key = "pu"
+            elif key == "pu":
+                key = "ma"
+            elif key == "bl":
                 key = "re"
-            elif key == "re":
-                key = "bl"
-            elif key == "ye":
-                key = "cy"
             elif key == "cy":
                 key = "ye"
-            elif key == "mg":
-                key = "ta"
+            elif key == "br":
+                key = "cy"
+            elif key == "re":
+                key = "bl"
             elif key == "ta":
-                key = "mg"
+                key = "cy"
+            
             return key
     return "mg"
+        
 
 def get_random_image(key):
     files = os.listdir(f"../images/tinted/{key}")
@@ -50,7 +55,7 @@ def stitch(input_file, df_colors, pixel_size=64, grid_size=256):
             pixel_image = Image.open(f"../images/tinted/{key}/{pixel_image_name}")
             canvas.paste(pixel_image, [col_index*pixel_size, row_index*pixel_size])
             
-    canvas.save(f"../images/output/output.jpg")
+    canvas.save(f"../images/output/output.png")
 
 
 if __name__ == "__main__":

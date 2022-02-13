@@ -18,7 +18,20 @@ def get_color_key(df_colors, pixel):
     for i in range(len(colors_b)):
         if colors_r[i] == pixel[0] and colors_g[i] == pixel[1] and colors_b[i] == pixel[2]:
             color_row = df_colors.iloc[i]
-            return color_row['key']
+            key = color_row['key']
+            if key == "bl":
+                key = "re"
+            elif key == "re":
+                key = "bl"
+            elif key == "ye":
+                key = "cy"
+            elif key == "cy":
+                key = "ye"
+            elif key == "mg":
+                key = "ta"
+            elif key == "ta":
+                key = "mg"
+            return key
     return "mg"
 
 def get_random_image(key):

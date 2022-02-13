@@ -34,6 +34,8 @@ def get_color_key(df_colors, pixel):
                 key = "bl"
             elif key == "ta":
                 key = "cy"
+            elif key == "mg":
+                key == "or"
             
             return key
     return "mg"
@@ -41,7 +43,12 @@ def get_color_key(df_colors, pixel):
 
 def get_random_image(key):
     files = os.listdir(f"../images/tinted/{key}")
-    return random.choice(files)
+    try:
+        random.seed()
+        return random.choice(files)
+    except:
+        random.seed()
+        return random.choice(files)
 
 def stitch(input_file, df_colors, pixel_size=64, grid_size=256):
     canvas = create_canvas(grid_height=grid_size, grid_width=grid_size)

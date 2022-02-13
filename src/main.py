@@ -164,7 +164,8 @@ def parse_upload(contents, filename):
         
         encoded_image = base64.b64encode(open(f"../images/output/output.png", 'rb').read())
         image_return = html.Div([
-            html.Img(src=f"data:image/png;base64,{encoded_image.decode()}")
+            html.Img(src=f"data:image/png;base64,{encoded_image.decode()}",
+                    style={'height': "512px", "width": "512px"})
         ])
         print("Done")
 
@@ -174,18 +175,18 @@ def parse_upload(contents, filename):
 def main(input_file: str):
     df_colors = pd.read_csv("../colors.csv")
     cleanup()
+    print("Pre-processing")
     pipeline(df_colors)
+    print("Reducing")
     img = reduce_to_16(input_file, df_colors)
+    print("Stitching")
     stitching.stitch(img, df_colors, grid_size=64)
 #pog
 if __name__ == "__main__":
     # can do async
     app.run_server(debug=True)
-    input_file = select_input_file()
-    df_colors = pd.read_csv("../colors.csv")
-    cleanup()
-    pipeline(df_colors)
-    img = reduce_to_16(input_file, df_colors)
-    stitching.stitch(img, df_colors, grid_size=64)
+    
+    
+    
     
 

@@ -6,25 +6,6 @@ from colormath.color_diff import delta_e_cie2000
 import imageio as io
 import pandas as pd
 
-colors = [
-    [255,255,255],
-    [252,244,4],
-    [255,100,4],
-    [220,8,8],
-    [240,8,132],
-    [72,0,184],
-    [0,0,212],
-    [0,172,232],
-    [32,184,20],
-    [0,100,16],
-    [88,44,4],
-    [144,112,56],
-    [192,192,192],
-    [128,128,128],
-    [64,64,64],
-    [0,0,0]
-    ]
-
 def rgb_to_nearest_16(pixel, df_colors):
     nearest_color_index = 100
     lowest_sum = 765

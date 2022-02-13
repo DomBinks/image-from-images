@@ -1,4 +1,6 @@
 import os
+
+from matplotlib import image
 import imageio
 import convert_to_square as cts
 import pandas as pd
@@ -89,9 +91,9 @@ def reduce_to_16(file, df_colors):
     # need to optimise
     img = imageio.read_image(f"../images/input/{file}")
     img = cts.make_square(img, 64)
-    imageio.write_image(img, f"../images/reduced/{file}")
     img = ct16.make_16(img, df_colors)
     imageio.write_image(img, f"../images/reduced/{file}")
+    return img
     
 #pog
 if __name__ == "__main__":
@@ -100,7 +102,7 @@ if __name__ == "__main__":
     df_colors = pd.read_csv("../colors.csv")
     cleanup()
     pipeline(df_colors)
-    reduce_to_16(input_file, df_colors)
-    stitching.stitch(input_file, df_colors, grid_size=64)
+    img = reduce_to_16(input_file, df_colors)
+    stitching.stitch(img, df_colors, grid_size=64)
     
 

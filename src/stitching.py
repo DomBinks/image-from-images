@@ -25,20 +25,19 @@ def get_random_image(key):
     files = os.listdir(f"../images/tinted/{key}")
     return random.choice(files)
 
-def stitch(input_file_name, df_colors, pixel_size=64, grid_size=256):
+def stitch(input_file, df_colors, pixel_size=64, grid_size=256):
     canvas = create_canvas(grid_height=grid_size, grid_width=grid_size)
-    input_file = imageio.read_image(f"../images/reduced/{input_file_name}")
-
+    
     height, width = input_file.shape[:2]
-
+    
     for row_index in range(height):
         for col_index in range(width):
             key = get_color_key(df_colors, input_file[row_index][col_index])
             pixel_image_name = get_random_image(key)
             pixel_image = Image.open(f"../images/tinted/{key}/{pixel_image_name}")
-            canvas.paste(pixel_image, [row_index*pixel_size, col_index*pixel_size])
+            canvas.paste(pixel_image, [col_index*pixel_size, row_index*pixel_size])
             
-    canvas.save(f"../images/output/{input_file_name}")
+    canvas.save(f"../images/output/output.jpg")
 
 
 if __name__ == "__main__":

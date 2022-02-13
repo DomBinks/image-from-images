@@ -128,7 +128,7 @@ app.layout = html.Div([
             'margin': '10px'
         },
     ),
-    html.P(children="Output:"),
+    html.P(children="Output (will take 1 minute):"),
     #html.Img(src="/output.png"),
     html.Div(id="output-image"),
 

@@ -1,7 +1,10 @@
+from importlib.resources import contents
 import os
 
 from matplotlib import image
 import imageio
+from mercantile import children
+from pandas_datareader import test
 import convert_to_square as cts
 import pandas as pd
 import tint
@@ -9,6 +12,11 @@ import get_dominant_color as gdc
 import convert_to_16 as ct16
 import shutil
 import stitching
+from dash import Dash, html
+from dash import dcc
+from dash.dependencies import Input, Output, State
+import base64
+import flask
 
 def cleanup():
     try:
@@ -96,10 +104,83 @@ def reduce_to_16(file, df_colors):
     img = ct16.make_16(img, df_colors)
     imageio.write_image(img, f"../images/reduced/{file}")
     return img
-    
+
+
+app = Dash(__name__)
+
+app.layout = html.Div([
+    html.H3(children =  "image from images"),
+    html.P(children="Please upload an image to be imaged: "),
+    dcc.Upload(
+        id='upload-image',
+        children=html.Div([
+            'Drag and Drop or ',
+            html.A('Select Files')
+        ]),
+        style={
+            'width': '100%',
+            'height': '60px',
+            'lineHeight': '60px',
+            'borderWidth': '1px',
+            'borderStyle': 'dashed',
+            'borderRadius': '5px',
+            'textAlign': 'center',
+            'margin': '10px'
+        },
+    ),
+    html.P(children="Output:"),
+    #html.Img(src="/output.png"),
+    html.Div(id="output-image"),
+
+])
+
+def save_file(name, content):
+    print(name)
+    data = content.encode("utf8").split(b";base64,")[1]
+    with open(f"../images/input/{name}", "wb") as fp:
+        fp.write(base64.decodebytes(data))
+        print("test")
+
+
+@app.server.route("/output.png")
+def serve_static(resource):
+    return flask.send_file("../images/output/output.png", mimetype="image/png")
+
+
+@app.callback(Output("output-image", "children"),
+              #Output("output-image", 'src'),
+              Input("upload-image", "contents"),
+              State("upload-image", "filename")
+)
+def parse_upload(contents, filename):
+    image_return = html.Div([])
+
+    if filename != None:
+        save_file(filename, contents)
+        input_file = filename
+        main(input_file)
+
+        image_return = html.Div()
+        
+        encoded_image = base64.b64encode(open(f"../images/output/output.png", 'rb').read())
+        image_return = html.Div([
+            html.Img(src=f"data:image/png;base64,{encoded_image.decode()}")
+        ])
+        print("Done")
+
+
+    return image_return
+
+def main(input_file: str):
+    df_colors = pd.read_csv("../colors.csv")
+    cleanup()
+    pipeline(df_colors)
+    img = reduce_to_16(input_file, df_colors)
+    stitching.stitch(img, df_colors, grid_size=64)
 #pog
 if __name__ == "__main__":
     # can do async
+    app.run_server(debug=True)
     input_file = select_input_file()
     df_colors = pd.read_csv("../colors.csv")
     cleanup()

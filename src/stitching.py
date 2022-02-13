@@ -50,7 +50,7 @@ def stitch(input_file, df_colors, pixel_size=64, grid_size=256):
             pixel_image = Image.open(f"../images/tinted/{key}/{pixel_image_name}")
             canvas.paste(pixel_image, [col_index*pixel_size, row_index*pixel_size])
             
-    canvas.save(f"../images/output/output.jpg")
+    canvas.save(f"../images/output/output.png")
 
 
 if __name__ == "__main__":

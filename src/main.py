@@ -93,7 +93,7 @@ def reduce_to_16(file, df_colors):
     img = ct16.make_16(img, df_colors)
     imageio.write_image(img, f"../images/reduced/{file}")
     
-
+#pog
 if __name__ == "__main__":
     # can do async
     input_file = select_input_file()
